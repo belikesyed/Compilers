@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1440531400 source:/home/syed/Desktop/Compilers/try/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

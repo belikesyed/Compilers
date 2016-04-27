@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1442314149 source:/home/syed/Desktop/Predictive_parser/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

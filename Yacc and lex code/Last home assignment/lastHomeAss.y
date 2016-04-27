@@ -1,0 +1,121 @@
+%{
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+int regs[26];
+int base;
+char code[10][4]={{' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '},
+                   {' ',' ',' ',' '}};
+//0th index=A,B...(e.g A = id1 op id2), 1st index=id1, 2nd index=op, 3rd index=right
+
+int insert(char temp, char id1, char op, char id2)
+{
+int i=0,j=0;
+ while(code[i][j]!=' ')
+{
+  if(code[i][j+1]==id1 && code[i][j+2]==op && code[i][j+3]==id2)
+	{
+	 return;
+	}
+ 
+i++;
+}
+
+code[i][j]=temp;
+code[i][j+1]=id1;
+code[i][j+2]=op;
+code[i][j+3]=id2;
+
+}
+
+void display()
+{
+int i=0,j=0;
+printf("Note: RR:Resultant Register\nR1:Register for First_Id\nOP:Operator\nR2:Register for Second_Id\n\n\n");
+printf("RR\tR1\tOP\tR2\n");
+ while(code[i][j]!=' ')
+	{
+	printf("%c\t%c\t%c\t%c\n",code[i][j],code[i][j+1],code[i][j+2],code[i][j+3]); i++;
+	}
+}
+
+
+%}
+
+%start list
+%token id
+
+%left '='
+%left '|'
+%left '+' '-'
+%left '*' '/'
+
+
+%%   /* beginning of rules section */
+
+list:                       /*empty */
+         |
+        list S '\n'
+         |
+        list error '\n'
+         {
+           yyerrok;
+         }
+         ;
+
+S	:E '=' E
+	{
+	  insert($$,$1,'=',$3);
+          display();
+	int i;
+	for(i=0;i<10;i++)
+	{
+	code[i][0]=code[i][1]=code[i][2]=code[i][3]=' ';
+	}
+	};
+
+E	:E '+' E
+	{
+	  insert($$,$1,'+',$3);
+	}
+	|E '-' E
+	{
+	insert($$,$1,'-',$3);
+	}|E '*' E
+	{
+	insert($$,$1,'*',$3);
+	}|E '/' E
+	{
+	insert($$,$1,'/',$3);
+	}|'(' E ')'
+	{
+	
+	}| 
+	id;
+%%
+main()
+{
+ return(yyparse());
+}
+
+yyerror(s)
+char *s;
+{
+  fprintf(stderr, "error:%s\n",s);
+}
+
+yywrap()
+{
+  return(1);
+}
+
+

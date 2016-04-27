@@ -1,0 +1,80 @@
+%{
+/* need this for the call to atof() below */
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int k=1;
+struct node
+{
+   int index;
+   char id[100]; 
+}list[50];
+ 
+%}
+
+%x C_COMMENT
+
+
+RELOP	 <|>|<=|>=|=|<>
+
+%%
+
+"if"|"then"|"else"|"printf"    		{printf( "A keyword: %s\n", yytext );check("key");}
+[a-zA-Z]([a-zA-Z]|[0-9]|_)*        	{printf( "An identifier: %s\n", yytext );check("id");}
+[0-9][0-9]*(.[0-9]*)?(E[+-]?[0-9]*)?    {printf("A number: %s\n",yytext);check("num");}
+{RELOP}   				{printf( "A relation operator: %s\n", yytext );check("Relop");}
+[ \t\n]+         			 /* eat up whitespace */
+"//".*         				 /* eat  */
+"/*"            			 { BEGIN(C_COMMENT); }
+<C_COMMENT>"*/"				 { BEGIN(INITIAL); }
+<C_COMMENT>.   				 { }
+[;]					/*eat*/
+[.]					/*eat*/
+
+
+
+%%
+ check(char typ[])
+{
+   int pos = Exists(yytext,k);
+   if(pos==0)
+	{
+		list[k-1].index = k;
+                strcpy(list[k-1].id,yytext);
+                printf("<%s,%s,%d>\n",typ,list[k-1].id,list[k-1].index);
+                k++;
+	}
+   else
+	{
+		printf("Already Exist -> <%s,%s,%d>\n",typ,yytext,pos);
+	}
+}
+
+Exists(char arr[],int kount)
+{
+    int j=0;
+    int pos = -1;
+    for(j=0;j<kount;j++)
+    {
+        if(strcmp(arr,list[j].id)==0)
+        {
+            pos = j;
+        }
+    }
+    return pos+1;
+}
+
+main( argc, argv )
+    {
+            yyin = fopen( "Input1.txt", "r" );
+    yylex();
+int x;
+printf("\n***Symbol Table***\n");
+	for(x=0;x<k-1;x++)
+	{
+		printf("<%s,%d>\n",list[x].id,list[x].index);
+	}
+return 0;
+ }

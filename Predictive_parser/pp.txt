@@ -1,0 +1,11 @@
+S aAB
+S bAB
+A XY
+A ZB
+B b
+B e
+X a
+X e
+Y c
+Y e
+Z d

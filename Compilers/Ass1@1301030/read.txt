@@ -1,0 +1,5 @@
+index=block_index+set_index+300;
+index45 =  index*index45;
+
+
+    67=bloc_index;

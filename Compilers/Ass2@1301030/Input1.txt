@@ -1,0 +1,13 @@
+/* Source program written for the lab assignment of compiler*/
+// This comment line must be skiped.
+if test_index>=56.78 then
+    if display_index<>test_index then
+          display_index=56.87E+9; // Comment line.
+     else
+          display_index=0;
+else if test_index>old_index1 then
+     if global1=global2 then // Comment line.
+          local=global1;
+     else 
+          local=global2;          
+/* End of the source program */          

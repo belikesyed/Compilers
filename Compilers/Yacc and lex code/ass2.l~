@@ -1,0 +1,53 @@
+%{
+ 
+#include <stdio.h>
+#include "y.tab.h"
+int c;
+extern int yylval;
+%}
+%%
+
+"vincent"|"mia"|"marsellus"|"jules"    {
+           				 c = yytext[0];
+           				 yylval = c - 'a';
+           				 return(PN);
+          				}
+"a"|"the"|"her"|"his"   		{
+            				c = yytext[0];
+            				yylval = c - '0';
+            				return(Det);
+          				}
+"gun"|"robber"|"man"|"woman"		{
+                 			c = yytext[0];
+                 			return(N);
+               				}
+"who"|"that"				{
+                 			c = yytext[0];
+                 			return(Wh);
+               				}
+"to"					{
+                 			c = yytext[0];
+                 			return(P);
+               				}
+"died"|"fell"				{
+                 			c = yytext[0];
+                 			return(IV);
+               				}
+"shot"|"knew"|"loved"			{
+                 			c = yytext[0];
+                 			return(TV);
+               				}
+"handed"|"knew"				{
+                 			c = yytext[0];
+                 			return(DV);
+               				}
+"knew"|"belived"			{
+                 			c = yytext[0];
+                 			return(SV);
+               				}
+
+
+
+
+
+

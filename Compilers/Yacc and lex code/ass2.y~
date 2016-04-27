@@ -1,0 +1,46 @@
+%{
+#include <stdio.h>
+
+int regs[26];
+int base;
+
+%}
+
+%start S
+
+
+%token P N PN Det Wh SV IV TV DV
+
+%%                   /* beginning of rules section */
+S	: NP VP {printf("Accepted\n");}|{printf("Error\n");};
+
+NP	: PN|PN Rel|Det NBar;
+
+NBar	: N|N Rel;
+
+Rel	: Wh VP;
+
+VP	:IV|TV NP|DV NP PP|SV S;
+
+PP	:P NP;
+
+%%
+
+
+main()
+{
+ return(yyparse());
+}
+
+yyerror(s)
+char *s;
+{
+  fprintf(stderr, "%s\n",s);
+}
+
+yywrap()
+{
+  return(1);
+}
+
+
